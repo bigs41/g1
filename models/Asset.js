@@ -32,6 +32,19 @@ const addAsset = async (name, type, description) => {
   return result.rows[0];
 };
 
+// Adding enemy assets
+const addEnemyAssets = async () => {
+  const enemies = [
+    { name: 'Goblin', type: 'enemy', description: 'A small, green humanoid creature.' },
+    { name: 'Orc', type: 'enemy', description: 'A large, brutish humanoid with green skin.' },
+    { name: 'Dragon', type: 'enemy', description: 'A massive, fire-breathing reptilian creature.' },
+  ];
+
+  for (const enemy of enemies) {
+    await addAsset(enemy.name, enemy.type, enemy.description);
+  }
+};
+
 const getAssets = async () => {
   const query = 'SELECT * FROM assets;';
   const result = await pool.query(query);
@@ -67,6 +80,7 @@ const deleteAsset = async (id) => {
 module.exports = {
   createAssetTable,
   addAsset,
+  addEnemyAssets,
   getAssets,
   getAssetById,
   updateAsset,

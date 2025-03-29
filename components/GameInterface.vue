@@ -8,6 +8,12 @@
       </ul>
     </div>
     <div>
+      <h3>Enemy Assets</h3>
+      <ul>
+        <li v-for="enemy in enemyAssets" :key="enemy.id">{{ enemy.name }}</li>
+      </ul>
+    </div>
+    <div>
       <h3>Game Information</h3>
       <p>{{ gameInfo }}</p>
     </div>
@@ -23,6 +29,7 @@ export default {
   data() {
     return {
       assets: [],
+      enemyAssets: [],
       gameInfo: '',
     };
   },
@@ -32,8 +39,9 @@ export default {
       console.log('Interacting with AI DM...');
     },
     async fetchGameAssets() {
-      // Placeholder for fetching game assets
-      this.assets = await this.$store.dispatch('fetchAssets');
+      const allAssets = await this.$store.dispatch('fetchAssets');
+      this.assets = allAssets.filter(asset => asset.type !== 'enemy');
+      this.enemyAssets = allAssets.filter(asset => asset.type === 'enemy');
     },
     async fetchGameInfo() {
       // Placeholder for fetching game information
