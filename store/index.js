@@ -7,11 +7,15 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     assets: [],
+    enemyAssets: [],
     gameInfo: '',
   },
   mutations: {
     SET_ASSETS(state, assets) {
       state.assets = assets;
+    },
+    SET_ENEMY_ASSETS(state, enemyAssets) {
+      state.enemyAssets = enemyAssets;
     },
     SET_GAME_INFO(state, gameInfo) {
       state.gameInfo = gameInfo;
@@ -21,7 +25,11 @@ export default new Vuex.Store({
     async fetchAssets({ commit }) {
       try {
         const response = await axios.get('/api/assets');
-        commit('SET_ASSETS', response.data);
+        const allAssets = response.data;
+        const assets = allAssets.filter(asset => asset.type !== 'enemy');
+        const enemyAssets = allAssets.filter(asset => asset.type === 'enemy');
+        commit('SET_ASSETS', assets);
+        commit('SET_ENEMY_ASSETS', enemyAssets);
       } catch (error) {
         console.error('Error fetching assets:', error);
       }
@@ -46,6 +54,7 @@ export default new Vuex.Store({
   },
   getters: {
     assets: (state) => state.assets,
+    enemyAssets: (state) => state.enemyAssets,
     gameInfo: (state) => state.gameInfo,
   },
 });
