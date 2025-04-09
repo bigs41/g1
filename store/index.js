@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     assets: [],
     gameInfo: '',
+    aiResponse: '',
   },
   mutations: {
     SET_ASSETS(state, assets) {
@@ -15,6 +16,9 @@ export default new Vuex.Store({
     },
     SET_GAME_INFO(state, gameInfo) {
       state.gameInfo = gameInfo;
+    },
+    SET_AI_RESPONSE(state, aiResponse) {
+      state.aiResponse = aiResponse;
     },
   },
   actions: {
@@ -37,8 +41,7 @@ export default new Vuex.Store({
     async interactWithAIDM({ commit }, payload) {
       try {
         const response = await axios.post('/api/ai-dm', payload);
-        // Handle the response from the AI DM
-        console.log('AI DM response:', response.data);
+        commit('SET_AI_RESPONSE', response.data);
       } catch (error) {
         console.error('Error interacting with AI DM:', error);
       }
@@ -47,5 +50,6 @@ export default new Vuex.Store({
   getters: {
     assets: (state) => state.assets,
     gameInfo: (state) => state.gameInfo,
+    aiResponse: (state) => state.aiResponse,
   },
 });

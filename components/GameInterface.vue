@@ -13,7 +13,9 @@
     </div>
     <div>
       <h3>AI Dungeon Master</h3>
+      <input v-model="userInput" placeholder="Enter your message" />
       <button @click="interactWithAIDM">Interact with AI DM</button>
+      <p>{{ aiResponse }}</p>
     </div>
   </div>
 </template>
@@ -24,19 +26,23 @@ export default {
     return {
       assets: [],
       gameInfo: '',
+      userInput: '',
+      aiResponse: '',
     };
   },
   methods: {
     async interactWithAIDM() {
-      // Placeholder for interacting with the AI DM
-      console.log('Interacting with AI DM...');
+      try {
+        const response = await this.$store.dispatch('interactWithAIDM', { message: this.userInput });
+        this.aiResponse = response;
+      } catch (error) {
+        console.error('Error interacting with AI DM:', error);
+      }
     },
     async fetchGameAssets() {
-      // Placeholder for fetching game assets
       this.assets = await this.$store.dispatch('fetchAssets');
     },
     async fetchGameInfo() {
-      // Placeholder for fetching game information
       this.gameInfo = await this.$store.dispatch('fetchGameInfo');
     },
   },

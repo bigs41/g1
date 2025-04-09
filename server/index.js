@@ -38,7 +38,8 @@ app.get('/api/game-info', async (req, res) => {
 
 app.post('/api/ai-dm', async (req, res) => {
   try {
-    const response = await axios.post('https://api.openrouter.ai/ollama', req.body);
+    const userInput = req.body.message;
+    const response = await axios.post('https://api.openrouter.ai/ollama', { message: userInput });
     res.json(response.data);
   } catch (error) {
     console.error('Error interacting with AI DM:', error);
